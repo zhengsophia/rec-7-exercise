@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from "@/router";
 import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
@@ -19,6 +20,9 @@ onBeforeMount(async () => {
     // Hint: Look at the documentation for the router.push() method
     // ---------------
     // ---------------
+    if (isLoggedIn.value) {
+      await router.push("/profile");
+    }
   } catch {
     // User is not logged in
   }
@@ -40,6 +44,7 @@ onBeforeMount(async () => {
         </li>
         <!-- TODO 2: How can we display the Profile tab in the Nav Bar only if a user is logged in? -->
         <li v-if="isLoggedIn">
+          <RouterLink :to="{ name: 'Profile' }" :class="{ underline: currentRouteName == 'Profile' }"> Profile </RouterLink>
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
         </li>
         <li v-else>
